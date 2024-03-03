@@ -1,0 +1,15 @@
+{
+  "name": "blogVista_server",
+  "version": "1.0.0",
+  "main": "y",
+  "repository": "n",
+  "author": "blogVista",
+  "license": "n",
+  "private": false,
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "mongodb": "^6.4.0"
+  }
+}

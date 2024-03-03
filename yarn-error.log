@@ -1,0 +1,44 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\Jesmin\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add monbodb express dotenv cors
+
+PATH: 
+  C:\Program Files\PowerShell\7;C:\Program Files (x86)\VMware\VMware Player\bin\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\PowerShell\7\;C:\Users\Jesmin\.console-ninja\.bin;C:\Users\Jesmin\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\Jesmin\AppData\Local\Programs\Python\Python310\;C:\Users\Jesmin\AppData\Local\Microsoft\WindowsApps;C:\Users\Jesmin\.dotnet\tools;;C:\Users\Jesmin\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Jesmin\AppData\Roaming\npm;C:\Users\Jesmin\AppData\Local\Programs\oh-my-posh\bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  21.5.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/monbodb: Not found
+      at params.callback [as _callback] (C:\Users\Jesmin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66145:18)
+      at self.callback (C:\Users\Jesmin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140890:22)
+      at Request.emit (node:events:519:28)
+      at Request.<anonymous> (C:\Users\Jesmin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141862:10)
+      at Request.emit (node:events:519:28)
+      at IncomingMessage.<anonymous> (C:\Users\Jesmin\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141784:12)
+      at Object.onceWrapper (node:events:633:28)
+      at IncomingMessage.emit (node:events:531:35)
+      at endReadableNT (node:internal/streams/readable:1696:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+npm manifest: 
+  {
+    "name": "blogVista_server",
+    "version": "1.0.0",
+    "main": "y",
+    "repository": "n",
+    "author": "blogVista",
+    "license": "n",
+    "private": false
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
