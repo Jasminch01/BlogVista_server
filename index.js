@@ -35,15 +35,38 @@ async function run() {
       const result = await allBlogsCollection.find().toArray();
       res.send(result);
     });
-    app.get('/recentBlogs', async(req, res) => {
-      const sort = {createdAt : - 1}
-      const result = await allBlogsCollection.find().sort(sort).limit(6).toArray();
-      res.send(result)
-    })
+    app.get("/recentBlogs", async (req, res) => {
+      const sort = { createdAt: -1 };
+      const result = await allBlogsCollection
+        .find()
+        .sort(sort)
+        .limit(6)
+        .toArray();
+      res.send(result);
+    });
+    
+    app.get("/featured-blogs", async (req, res) => {
+      const pipeline = [
+        {
+          $addFields: {
+            wordCount: { $size: { $split: ["$longdescription", " "] } }, // Count words in long_description
+          },
+        },
+        {
+          $sort: { wordCount: -1 }, // Sort by word count (descending)
+        },
+        {
+          $limit: 10, // Limit to top 10 documents
+        },
+      ];
+      const result = await allBlogsCollection.aggregate(pipeline).toArray();
+      res.send(result);
+    });
+
     app.get("/allBlogs/:id", async (req, res) => {
       const id = req.params.id;
-      const blogId = {_id : new ObjectId(id)}
-      const result = await allBlogsCollection.findOne(blogId)
+      const blogId = { _id: new ObjectId(id) };
+      const result = await allBlogsCollection.findOne(blogId);
       res.send(result);
     });
     app.get("/wishlist", async (req, res) => {
@@ -52,12 +75,12 @@ async function run() {
     });
 
     //post api's
-    app.post("/addblogs", async(req, res) => {
+    app.post("/addblogs", async (req, res) => {
       const blog = req.body;
-      blog.createdAt = new Date()
-      const result = await  allBlogsCollection.insertOne(blog)
-      res.send(result)
-    })
+      blog.createdAt = new Date();
+      const result = await allBlogsCollection.insertOne(blog);
+      res.send(result);
+    });
     app.post("/wishlist", async (req, res) => {
       const wishBlog = req.body;
       const result = await wishlistCollection.insertOne(wishBlog);
