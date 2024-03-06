@@ -73,6 +73,14 @@ async function run() {
       res.send(result);
     });
 
+    //get all by category
+    app.get("/allblogs/category", async (req, res) => {
+      const category = req.query.category;
+      const query = { category: category };
+      const result = await allBlogsCollection.find(query).toArray();
+      res.send(result);
+    });
+
     app.get("/allBlogs/:id", async (req, res) => {
       const id = req.params.id;
       const blogId = { _id: new ObjectId(id) };
@@ -115,8 +123,7 @@ async function run() {
 
     app.patch(`/update/:id`, async (req, res) => {
       const id = req.params.id;
-      const { title, image, description, longdescription, category } =
-        req.body;
+      const { title, image, description, longdescription, category } = req.body;
       const filter = { _id: new ObjectId(id) };
       const updateProduct = {
         $set: {
@@ -127,7 +134,7 @@ async function run() {
           category,
         },
       };
-      console.log(updateProduct)
+      console.log(updateProduct);
       const result = await allBlogsCollection.updateOne(filter, updateProduct);
       res.send(result);
     });
