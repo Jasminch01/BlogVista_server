@@ -31,7 +31,7 @@ async function run() {
       .db("BlogVista")
       .collection("wishCollection");
     const allBlogsCollection = client.db("BlogVista").collection("allBlogs");
-    const commentCollection = client.db('BlogVista').collection("comment")
+    const commentCollection = client.db("BlogVista").collection("comment");
 
     //get api's
     app.get("/allBlogs", async (req, res) => {
@@ -86,11 +86,11 @@ async function run() {
     app.get("/comments/:id", async (req, res) => {
       const id = req.params.id;
       const query = {
-        comment_id : id
-      }
+        comment_id: id,
+      };
       const result = await commentCollection.find(query).toArray();
-      res.send(result)
-    })
+      res.send(result);
+    });
 
     //post api's
     app.post("/addblogs", async (req, res) => {
@@ -108,8 +108,29 @@ async function run() {
     app.post("/comment-blogs", async (req, res) => {
       const comment = req.body;
       const result = await commentCollection.insertOne(comment);
-      res.send(result)
-    })
+      res.send(result);
+    });
+
+    //patch api's
+
+    app.patch(`/update/:id`, async (req, res) => {
+      const id = req.params.id;
+      const { title, image, description, longdescription, category } =
+        req.body;
+      const filter = { _id: new ObjectId(id) };
+      const updateProduct = {
+        $set: {
+          title,
+          image,
+          description,
+          longdescription,
+          category,
+        },
+      };
+      console.log(updateProduct)
+      const result = await allBlogsCollection.updateOne(filter, updateProduct);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
