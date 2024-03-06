@@ -27,8 +27,11 @@ async function run() {
     await client.connect();
 
     //db collections
-    const wishlistCollection = client.db("BlogVista").collection("wishlist");
+    const wishlistCollection = client
+      .db("BlogVista")
+      .collection("wishCollection");
     const allBlogsCollection = client.db("BlogVista").collection("allBlogs");
+    const commentCollection = client.db('BlogVista').collection("comment")
 
     //get api's
     app.get("/allBlogs", async (req, res) => {
@@ -44,7 +47,14 @@ async function run() {
         .toArray();
       res.send(result);
     });
-    
+
+    app.delete("/delete-wishlist/:id", async (req, res) => {
+      const wishlistId = req.params.id;
+      const query = { _id: new ObjectId(wishlistId) };
+      const result = await wishlistCollection.deleteOne(query);
+      res.send(result);
+    });
+
     app.get("/featured-blogs", async (req, res) => {
       const pipeline = [
         {
@@ -73,6 +83,14 @@ async function run() {
       const result = await wishlistCollection.find().toArray();
       res.send(result);
     });
+    app.get("/comments/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = {
+        comment_id : id
+      }
+      const result = await commentCollection.find(query).toArray();
+      res.send(result)
+    })
 
     //post api's
     app.post("/addblogs", async (req, res) => {
@@ -86,6 +104,12 @@ async function run() {
       const result = await wishlistCollection.insertOne(wishBlog);
       res.send(result);
     });
+
+    app.post("/comment-blogs", async (req, res) => {
+      const comment = req.body;
+      const result = await commentCollection.insertOne(comment);
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
