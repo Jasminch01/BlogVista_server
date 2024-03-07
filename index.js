@@ -47,14 +47,6 @@ async function run() {
         .toArray();
       res.send(result);
     });
-
-    app.delete("/delete-wishlist/:id", async (req, res) => {
-      const wishlistId = req.params.id;
-      const query = { _id: new ObjectId(wishlistId) };
-      const result = await wishlistCollection.deleteOne(query);
-      res.send(result);
-    });
-
     app.get("/featured-blogs", async (req, res) => {
       const pipeline = [
         {
@@ -136,6 +128,14 @@ async function run() {
       };
       console.log(updateProduct);
       const result = await allBlogsCollection.updateOne(filter, updateProduct);
+      res.send(result);
+    });
+
+    //delete api's
+    app.delete("/delete-wishlist/:id", async (req, res) => {
+      const wishlistId = req.params.id;
+      const query = { _id: wishlistId };
+      const result = await wishlistCollection.deleteOne(query);
       res.send(result);
     });
 
