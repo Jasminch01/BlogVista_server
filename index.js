@@ -2,6 +2,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -98,8 +99,12 @@ async function run() {
       const result = await allBlogsCollection.findOne(blogId);
       res.send(result);
     });
-    app.get("/wishlist", async (req, res) => {
-      const result = await wishlistCollection.find().toArray();
+    app.get("/wishlist/:email", async (req, res) => {
+      const userEmail = req.params.email;
+      const query = {
+        userEmail
+      }
+      const result = await wishlistCollection.find(query).toArray();
       res.send(result);
     });
     app.get("/comments/:id", async (req, res) => {
@@ -119,7 +124,9 @@ async function run() {
       res.send(result);
     });
     app.post("/wishlist", async (req, res) => {
+      const wishList_id = uuidv4();
       const wishBlog = req.body;
+      wishBlog.wish_id = wishList_id;
       const result = await wishlistCollection.insertOne(wishBlog);
       res.send(result);
     });
@@ -153,7 +160,7 @@ async function run() {
     //delete api's
     app.delete("/delete-wishlist/:id", async (req, res) => {
       const wishlistId = req.params.id;
-      const query = { _id: wishlistId };
+      const query = { _id: new ObjectId(wishlistId)};
       const result = await wishlistCollection.deleteOne(query);
       res.send(result);
     });
