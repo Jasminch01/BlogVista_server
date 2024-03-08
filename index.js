@@ -73,6 +73,25 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/categores-cunt", async (req, res) => {
+      try {
+        const result = await allBlogsCollection
+          .aggregate([
+            {
+              $group: {
+                _id: "$category",
+                count: { $sum: 1 },
+              },
+            },
+          ])
+          .toArray();
+        res.json(result);
+      } catch (error) {
+        console.error("Error retrieving document count by category:", error);
+        res.status(500).json({ error: "Internal server error" });
+      }
+    });
+
     app.get("/allBlogs/:id", async (req, res) => {
       const id = req.params.id;
       const blogId = { _id: new ObjectId(id) };
